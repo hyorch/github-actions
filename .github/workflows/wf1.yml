@@ -1,0 +1,18 @@
+name: ejemplo simple
+
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  mi-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar
+        uses: actions/checkout@v4
+
+      - name: hola
+        run: echo "hola"
