@@ -3,7 +3,7 @@ name: Project Basic 01
 on:
   push:
     branches:
-      - main
+      - develop
   workflow_dispatch:
 
 jobs:

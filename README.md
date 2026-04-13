@@ -60,7 +60,7 @@ on: schedule
 - Workflow Dispatch: run manually
 
 ```yaml
-on: workflow_dispatch
+on: [workflow_dispatch,push]
 ```
 
 ### Actions
@@ -79,3 +79,39 @@ jobs:
                 repository: <repository-name>
                 ref: <branch-name>     
 ```
+
+### Jobs parallel vs sequential
+Jobs runs on parallel, unless you configure "needs:" dependency.
+
+```yaml
+jobs:
+    job1:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Step 1
+              run: echo "Step 1"
+    job2:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Step 1
+              run: echo "Step 1"
+    job3:
+        needs: job2
+        runs-on: ubuntu-latest
+        steps:
+            - name: Step 1
+              run: echo "Step 1"
+```
+
+### Expressions &  Context Objects
+Expressions allos access to context objects:${{}}
+
+```yaml
+run: "${{ github.repository }}"
+run: "${{ github.branch }}"
+run: "${{ toJson(github) }}"
+```
+
+
+
+
