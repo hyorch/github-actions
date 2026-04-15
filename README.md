@@ -113,5 +113,84 @@ run: "${{ toJson(github) }}"
 ```
 
 
+## Events
+The **push** event filters. Activity types.
+
+```yaml
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.js"
+  pull_request:
+    types: [opened, synchronize, reopened]
+```
+
+Skip some events (push) by adding annotations to commit:
+```bash
+git commit -m "added files do not build [skip ci]"
+git push
+```
 
 
+## Job Artifacts and Outputs
+
+
+## Evirontment Variables and Secrets
+Env vars are used during workflow executions and code testing. They belongs to the runner environment, so code tested on during the workflow execution will use the same env vars.
+
+```yaml
+name:
+on: [push]
+env:
+  PORT: 8080
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
+    steps:
+      - name: show env vars
+        run: echo "$PORT"
+      - name: show PORT from context
+        run: echo "${{ env.PORT }}"
+      - name: Run server
+        run: npm start & npx waint-on http://localhost:$PORT
+```
+
+https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-variables#default-environment-variables
+
+Repository level Action Secrets.
+
+```yaml
+env:
+    MY_SECRET: ${{ secrets.MY_SECRET }}
+    MY_VARIABLE: ${{ vars.MY_VARIABLE }}
+jobs:
+    build:
+        steps:
+            - name: show env vars
+              run: |
+                echo "$MY_SECRET"
+                echo "${{ secrets.MY_SECRET }}"
+                echo "${{ vars.MY_VARIABLE }}"
+```
+
+Environment Variables and Secrets in Actions. Define environment variables and secrets.
+
+```yaml
+jobs:
+    build:
+        environment: test
+        env:
+            MY_SECRET: ${{ secrets.MY_SECRET }}
+            MY_VARIABLE: ${{ vars.MY_VARIABLE }}
+    deploy:
+        environment: production
+        env:
+            MY_SECRET: ${{ secrets.MY_SECRET }}
+            MY_VARIABLE: ${{ vars.MY_VARIABLE }}
+```
+              
+## Controlling Workflow and Job Execution
