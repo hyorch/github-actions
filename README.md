@@ -194,3 +194,11 @@ jobs:
 ```
               
 ## Controlling Workflow and Job Execution
+
+## Jobs and Docker Containers
+
+## Custom Actions
+Multiple steps can be grouped into a single action.
+Types: JavaScript Actions (execute JS or NodeJS), Docker Actions(run Dockerfile), Composite Actions (combine workflow steps)
+
+
